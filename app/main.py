@@ -56,12 +56,17 @@ def index():
 @app.route('/api/findBestDCFastCharger', methods=['POST'])
 def findClosestDCFastCharger():
     battery_capacity = request.json["batteryToFill"]  # Amount needed to fill, kWh
-    curr_location = request.json["currLocation"] # Address
+    curr_location = request.json["currLocation"] # Address or (lat, long)
+
     avg_car_speed = request.json["avgCarSpeed"]
 
-    location = '+'.join(''.join([char for char in curr_location if char.isalnum() or char == " "]).split())
-    print(location)
-    req_str = f"https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key={nrel_api_key}&country=all&location={location}&limit=1&ev_charging_level=dc_fast"
+    if isinstance(curr_location, list):
+        req_str = f"https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key={nrel_api_key}&country=all&latitude={curr_location[0]}&longitude={curr_location[1]}&limit=1&ev_charging_level=dc_fast"
+    else:
+        location = '+'.join(''.join([char for char in curr_location if char.isalnum() or char == " "]).split())
+        print(location)
+        req_str = f"https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key={nrel_api_key}&country=all&location={location}&limit=1&ev_charging_level=dc_fast"
+
     fuelStationData = {}
     with requests.get(req_str) as res:
         resData = res.json()
@@ -97,9 +102,13 @@ def findClosestLevel2Charger():
     curr_location = request.json["currLocation"] # Address
     avg_car_speed = request.json["avgCarSpeed"]
 
-    location = '+'.join(''.join([char for char in curr_location if char.isalnum() or char == " "]).split())
-    print(location)
-    req_str = f"https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key={nrel_api_key}&country=all&location={location}&limit=1&ev_charging_level=2"
+    if isinstance(curr_location, list):
+        req_str = f"https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key={nrel_api_key}&country=all&latitude={curr_location[0]}&longitude={curr_location[1]}&limit=1&ev_charging_level=2"
+    else:
+        location = '+'.join(''.join([char for char in curr_location if char.isalnum() or char == " "]).split())
+        print(location)
+        req_str = f"https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key={nrel_api_key}&country=all&location={location}&limit=1&ev_charging_level=2"
+    
     fuelStationData = {}
     with requests.get(req_str) as res:
         resData = res.json()
@@ -135,9 +144,13 @@ def findClosestSupercharger():
     curr_location = request.json["currLocation"] # Address
     avg_car_speed = request.json["avgCarSpeed"]
 
-    location = '+'.join(''.join([char for char in curr_location if char.isalnum() or char == " "]).split())
-    print(location)
-    req_str = f"https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key={nrel_api_key}&country=all&location={location}&limit=1&ev_network=Tesla"
+    if isinstance(curr_location, list):
+        req_str = f"https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key={nrel_api_key}&country=all&latitude={curr_location[0]}&longitude={curr_location[1]}&limit=1&ev_network=Tesla"
+    else:
+        location = '+'.join(''.join([char for char in curr_location if char.isalnum() or char == " "]).split())
+        print(location)
+        req_str = f"https://developer.nrel.gov/api/alt-fuel-stations/v1/nearest.json?api_key={nrel_api_key}&country=all&location={location}&limit=1&ev_network=Tesla"
+
     fuelStationData = {}
     with requests.get(req_str) as res:
         resData = res.json()
