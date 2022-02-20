@@ -64,6 +64,7 @@ def index():
 
 @app.route('/api/findBestDCFastCharger', methods=['POST'])
 def findClosestDCFastCharger():
+    print(request.json)
     battery_capacity = request.json["batteryToFill"]  # Amount needed to fill, kWh
     curr_location = request.json["currLocation"] # Address or (lat, long)
 
@@ -112,6 +113,7 @@ def findClosestDCFastCharger():
 
 @app.route('/api/findBestLevel2Charger', methods=['POST'])
 def findClosestLevel2Charger():
+    print(request.json)
     battery_capacity = request.json["batteryToFill"]  # Amount needed to fill, kWh
     curr_location = request.json["currLocation"] # Address
 
@@ -160,6 +162,7 @@ def findClosestLevel2Charger():
     
 @app.route('/api/findBestSupercharger', methods=['POST'])
 def findClosestSupercharger():
+    print(request.json)
     battery_capacity = request.json["batteryToFill"]  # Amount needed to fill, kWh
     curr_location = request.json["currLocation"] # Address
 
