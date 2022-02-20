@@ -1,10 +1,11 @@
 from flask import Flask, request
-import requests, json
-from consts import *
-import urllib.request, json
+from flask_cors import CORS
 
+import requests
+from util.consts import *
 
 app = Flask(__name__)
+CORS(app)
 
 nrel_api_key = "slTk0Zgzbd1wRRMtssUP8fBWjLHNWHxIhurqB70P"
 
